@@ -2,7 +2,7 @@
 
 **Yelp** is a Yelp search app using the [Yelp API](http://www.yelp.com/developers/documentation/v2/search_api).
 
-Time spent: **X** hours spent in total
+Time spent: **10** hours spent in total
 
 ## User Stories
 
@@ -32,7 +32,7 @@ The following **optional** features are implemented:
 
   Here's a walkthrough of implemented user stories:
 
-  <img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+  <img src='http://i.imgur.com/LdseJpL.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
   GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
