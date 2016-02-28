@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -24,6 +25,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         businessTableView.estimatedRowHeight = 120
         
         let searchBar = UISearchBar()
+        searchBar.delegate = self
         searchBar.sizeToFit()
         navigationItem.titleView = searchBar
 
@@ -31,10 +33,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         Business.searchWithTerm("Thai", completion: { (businesses: [Business]!, error: NSError!) -> Void in
             self.businesses = businesses
             self.businessTableView.reloadData()
-            for business in businesses {
-                print(business.name!)
-                print(business.address!)
-            }
+
         })
 
 /* Example of Yelp search with more search options specified
@@ -84,4 +83,40 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     }
     */
 
+}
+
+
+extension BusinessesViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        
+        if let search_text = searchBar.text {
+            
+            for char in search_text.characters {
+                if char == " " {
+                    continue
+                } else {
+                    MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                    Business.searchWithTerm(search_text, completion: { (businesses: [Business]!, error: NSError!) -> Void in
+                        self.businesses = businesses
+                        self.businessTableView.reloadData()
+                        MBProgressHUD.hideHUDForView(self.view, animated: true)
+                        searchBar.endEditing(true)
+                    })
+
+                    return
+                }
+            }
+            MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
+                self.businesses = businesses
+                self.businessTableView.reloadData()
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
+                searchBar.endEditing(true)
+            }
+
+            
+        }
+    }
+    
 }
